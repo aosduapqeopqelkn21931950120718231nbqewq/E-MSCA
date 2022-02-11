@@ -2,11 +2,11 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from utils import mask_, d, contains_nan
-from E_MDCA_model.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack, Encoder_kl
-from E_MDCA_model.decoder import Decoder, DecoderLayer
-from E_MDCA_model.attn import FullAttention, ProbAttention, AttentionLayer
-from E_MDCA_model.embed import DataEmbedding
-from E_MDCA_model.gcn import GCN
+from E_MSCA_model.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack, Encoder_kl
+from E_MSCA_model.decoder import Decoder, DecoderLayer
+from E_MSCA_model.attn import FullAttention, ProbAttention, AttentionLayer
+from E_MSCA_model.embed import DataEmbedding
+from E_MSCA_model.gcn import GCN
 
 
 

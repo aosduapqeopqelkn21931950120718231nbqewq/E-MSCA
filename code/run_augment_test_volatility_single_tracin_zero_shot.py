@@ -3,7 +3,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-from E_MDCA_transformer import *
+from E_MSCA_transformer import *
 import torch
 from torch import nn
 from torch.autograd import Variable
@@ -101,7 +101,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
 
 
 model_dict = {
-    'E_MDCA': Informer_simple(enc_in=arg.embedding_size, dec_in=arg.embedding_size, c_out=arg.embedding_size,
+    'E_MSCA': Informer_simple(enc_in=arg.embedding_size, dec_in=arg.embedding_size, c_out=arg.embedding_size,
                                  seq_len=arg.max_length, label_len=arg.label_size, out_len=0,
                                  factor=arg.factor, d_model=arg.d_model, n_heads=arg.n_heads, e_layers=arg.e_layers,
                                  d_ff=arg.d_ff,
@@ -496,7 +496,7 @@ def go(arg):
 
                     if not arg.kl:
 
-                        if arg.model not in ['E_MDCA', 'Informer']:
+                        if arg.model not in ['E_MSCA', 'Informer']:
                             out_b = para_model(inputs)
                         else:
                             out_b, attns = para_model(inputs, inputs, inputs, inputs)
@@ -506,7 +506,7 @@ def go(arg):
                     #                         print('start drawing !')
                     else:
 
-                        if arg.model not in ['E_MDCA', 'Informer']:
+                        if arg.model not in ['E_MSCA', 'Informer']:
                             out_b = para_model(inputs, inputs, inputs, inputs)
                             loss = F.cross_entropy(out_b.view(-1, arg.label_size), labels.view(-1))
                         else:
@@ -566,7 +566,7 @@ def go(arg):
 
                     if arg.task == 'cls':
 
-                        if arg.model not in ['E_MDCA', 'Informer']:
+                        if arg.model not in ['E_MSCA', 'Informer']:
                             out_b = para_model(inputs)
                             loss = compute_kl_loss(out_b, labels)
                         else:
@@ -630,7 +630,7 @@ def go(arg):
 
                     if arg.task == 'cls':
 
-                        if arg.model not in ['E_MDCA', 'Informer']:
+                        if arg.model not in ['E_MSCA', 'Informer']:
                             out_b = para_model(inputs)
                         else:
                             #                     out_b = para_model(inputs)
@@ -706,7 +706,7 @@ def go(arg):
                     #                 if i == 0:
                     #                     draw_heat_map(attns[0], i)
 
-                    if arg.model not in ['E_MDCA', 'Informer']:
+                    if arg.model not in ['E_MSCA', 'Informer']:
                         out_b = best_model(inputs)
                     else:
                         out_b, attns = best_model(inputs, inputs, inputs, inputs)
@@ -862,7 +862,7 @@ def training_data_augmentation_zero_shot(X_train_emb, y_train_emb, y_train_b_emb
             pos_txt = [aug_pos_text[i] for i in pos_ind]
             neg_txt = [aug_neg_text[i] for i in neg_ind]
             # print(x.size())
-            if arg.model in ['E_MDCA', 'Informer']:
+            if arg.model in ['E_MSCA', 'Informer']:
                 logits, _ = para_model(x, x, x, x)
             else:
                 logits = para_model(x)
